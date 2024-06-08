@@ -4,6 +4,9 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 
 const commonroute = require('./routes/common')
+const adminroutes = require('./routes/adminroutes')
+const userroutes = require('./routes/userroutes')
+
 
 const port = process.env.PORT
 const DB_URL = process.env.DB_CONNECTION
@@ -14,6 +17,10 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 
 app.use('/',commonroute)
+app.use('/admin',adminroutes)
+app.use('/user',userroutes)
+
+
 
 mongoose.connect(DB_URL,)
 .then(()=>{
