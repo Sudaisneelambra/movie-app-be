@@ -41,12 +41,29 @@ const addcard = async (req, res) =>{
     }
 }
 
-const deleteCard = (req, res) =>{
+const deleteCard = async (req, res) =>{
     try{
-        console.log(req.params.id);
+        const id = req.params.id;
+        const deletedItem = await cards.findByIdAndDelete(id);
+
+        if(!deletedItem){
+            res.json({
+                success: false,
+                message: "Card not found"
+            })
+        } 
+
+        res.json({
+            success: true,
+            message: "Card deleted successfully"
+        })
     }
     catch(err){
-
+        console.log(err);
+        res.json({
+            success: false,
+            message: "Failed to delete card"
+        })
     }
 }
 
