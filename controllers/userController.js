@@ -3,8 +3,18 @@ const ratings = require("../models/rating");
 
 const getallCards = async (req, res) => {
   try {
-    const card = await cards.find({});
-    if (card) {
+    // const card = await cards.find({});
+    const card = await cards.aggregate([
+        {
+            $lookup: {
+                from: "ratings",
+                localField: "_id",
+                foreignField: "movieId",
+                as: "fullratings"
+                }
+        }
+    ])
+    if (card.length>0) {
       res.json({
         success: true,
         message: "datagetted succesfully",
