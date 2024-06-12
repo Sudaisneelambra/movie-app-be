@@ -7,5 +7,10 @@
 
     router.post('/addCard',tokenCheck,upload.single('image'), admin.addcard)
     router.delete('/delete/:id',tokenCheck,admin.deleteCard)
+    router.get('/getCard/:id',admin.getCard)
+    router.post('/editCard/:id',tokenCheck,upload.single('image'), admin.editCard)
+
 
     module.exports = router
+
+    

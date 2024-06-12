@@ -67,7 +67,68 @@ const deleteCard = async (req, res) =>{
     }
 }
 
+const getCard = async(req, res)=>{
+    try{
+        const id = req.params.id;
+        const card = await cards.findById(id);
+        if(card){
+            res.json({
+                success: true,
+                message: 'getted successfully',
+                data:card
+            })
+        } else {
+            res.json({
+                success: false,
+                message: 'Card not found'
+                })
+        }
+    }
+    catch(err){
+        console.log(err);
+        res.json({
+            success: false,
+            message: 'Failed to get card'
+            })
+    }
+}
+
+const editCard = async (req, res) =>{
+    try{
+        const id = req.params.id;
+        console.log(id);
+        const { title,cast } = req.body;
+        const filePath = req?.file?.location;
+
+        const update= await cards.updateOne({_id:id},{$set:{
+            title,
+            cast,
+            filePath
+        }})
+
+        if(update){
+            res.json({
+                success: true,
+                message: 'Updated successfully',
+                data:update
+                })
+        } else{
+            res.json({
+                success: false,
+                message: 'Failed to update'
+                })
+        }
+        
+    }
+    catch(err){
+        res.json({
+            success: false,
+            message: 'Failed to update'
+            })
+    }
+}
 
 
 
-module.exports={addcard,deleteCard}
+
+module.exports={addcard,deleteCard,getCard,editCard}
